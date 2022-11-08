@@ -49,10 +49,10 @@ namespace TutorialASP.Services
         {
             var user = GetById(userId);
 
-            if (!user.GetType().GetProperties().Select((p) => p.GetValue(dto)).Any(value => value != null))
+            if (dto.Name == null && dto.LastName == null && dto.Place == null )
                 throw new Exception("You must update at least one property.");
 
-            if(dto.Name != null)
+            if (dto.Name != null)
                 user.Name = dto.Name;
 
             if (dto.LastName!= null)
@@ -60,14 +60,13 @@ namespace TutorialASP.Services
             
             if(dto.Place != null)
                 user.Place = dto.Place;
-
             return user;
             
         }
 
         public void Delete(Guid userId)
         {
-            Users.Remove(Users.Find((user) => user.Id == userId));
+            Users.Remove(GetById(userId));
         }
 
     }
