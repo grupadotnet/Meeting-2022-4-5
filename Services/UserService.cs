@@ -48,7 +48,10 @@ namespace TutorialASP.Services
         public User Update(Guid userId, UpdateUserDto dto)
         {
             var user = GetById(userId);
-            
+
+            if (!user.GetType().GetProperties().Select((p) => p.GetValue(dto)).Any(value => value != null))
+                throw new Exception("You must update at least one property.");
+
             if(dto.Name != null)
                 user.Name = dto.Name;
 
