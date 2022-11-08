@@ -2,11 +2,11 @@
 {
     public class User
     {
-        public Guid id { get; set; }
-        public string name { get; set; } = String.Empty;
-        public string lastname { get; set; } = String.Empty;
-        public DateOnly birthDate { get; set; }
-        public string place { get; set; } = String.Empty;
+        public Guid Id { get; set; }
+        public string Name { get; set; } = String.Empty;
+        public string Lastname { get; set; } = String.Empty;
+        public DateOnly BirthDate { get; set; }
+        public string lace { get; set; } = String.Empty;
 
     }
 }
