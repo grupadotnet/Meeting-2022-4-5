@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TutorialASP.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
+    [ApiController] // Wskazuje, ¿e typ i wszystkie typy pochodne s¹ u¿ywane do obs³ugi odpowiedzi interfejsu API HTTP.
+    [Route("[controller]")] // Ustawia œcie¿kê na  WeatherForecast
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -19,6 +19,7 @@ namespace TutorialASP.Controllers
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
+
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
