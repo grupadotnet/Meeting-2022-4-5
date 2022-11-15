@@ -3,9 +3,9 @@ using TutorialASP.Models;
 
 namespace TutorialASP.Context
 {
-    public class Context : DbContext
+    public class DBContext : DbContext
     {
-        public Context(DbContextOptions<Context> options) : base(options) { }
+        public DBContext(DbContextOptions<DBContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; } // Nazwa właściwości odpowiada nazwie tabeli w bazie
 
