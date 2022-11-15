@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using TutorialASP.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
 using TutorialASP.Models;
 
 namespace TutorialASP.Controllers
