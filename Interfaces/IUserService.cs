@@ -4,10 +4,10 @@ namespace TutorialASP.Interfaces
 {
     public interface IUserService
     {
-        List<User> GetUsers();
-        User GetById(Guid userId);
-        User Create(CreateUserDto dto);
-        User Update(Guid userId, UpdateUserDto dto);
-        void Delete(Guid userId);
+        Task<List<User>> GetUsers();
+        Task<User> GetById(Guid userId);
+        Task<User> Create(CreateUserDto dto);
+        Task<User> Update(Guid userId, UpdateUserDto dto);
+        Task Delete(Guid userId);
     }
 }

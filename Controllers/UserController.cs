@@ -16,7 +16,7 @@ namespace TutorialASP.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var users = _userService.GetUsers();
+            var users = await _userService.GetUsers();
 
             return Ok(users);
         }
@@ -24,7 +24,7 @@ namespace TutorialASP.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOne(Guid id)
         {
-            var user = _userService.GetById(id);
+            var user = await _userService.GetById(id);
             if(user == null)
                 return NotFound();
 
@@ -34,7 +34,7 @@ namespace TutorialASP.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateUserDto createUserDto)
         {
-            var user = _userService.Create(createUserDto);
+            var user = await _userService.Create(createUserDto);
             return Ok(user);
         }
 
@@ -43,18 +43,21 @@ namespace TutorialASP.Controllers
         {
             try
             {
-                var user = _userService.Update(id, updateUserDto);
+                var user = await _userService.Update(id, updateUserDto);
                 return Ok(user);
             } 
             catch(Exception exception)
             {
+                if (exception.Message == "User not found")
+                    return NotFound();
+
                 return BadRequest(exception.Message);
             }
         }
         [HttpDelete]
         public async Task<IActionResult> Delete(Guid id)
         {
-            _userService.Delete(id);
+           await _userService.Delete(id);
 
             return NoContent();
         }

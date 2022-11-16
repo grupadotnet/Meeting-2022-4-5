@@ -1,53 +1,49 @@
-﻿using TutorialASP.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using TutorialASP.Interfaces;
 using TutorialASP.Models;
 
 namespace TutorialASP.Services
 {
     public class UserService : IUserService
     {
-        private static List<User> Users = new List<User>
+        private readonly DBContext _dbContext;
+        public UserService(DBContext dbContext)
         {
-                new User
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Jan",
-                    LastName = "Kowalski",
-                    Place = "Kraków"
-                },
-                new User
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "John",
-                    LastName = "Doe",
-                    Place = "USA"
-                }
-    };
-        public List<User> GetUsers()
-        {
-            return Users;
-        }
-        public User GetById(Guid userId)
-        {
-            return Users.Find((user) => user.Id == userId);
+            _dbContext = dbContext;
         }
 
-        public User Create(CreateUserDto dto)
+        public async Task<List<User>> GetUsers()
+        {
+            return await _dbContext.Users.ToListAsync();
+        }
+        public async Task<User> GetById(Guid userId)
+        {
+            var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Id == userId);
+            if (user == null)
+                throw new Exception("User not found");
+
+            return user;
+        }
+
+        public async Task<User> Create(CreateUserDto dto)
         {
             var user = new User
             {
-                Id = Guid.NewGuid(),
                 Name = dto.Name,
                 LastName = dto.LastName,
                 Place = dto.Place,
             };
 
-            Users.Add(user);
-
+             _dbContext.Users.Add(user);
+            await  _dbContext.SaveChangesAsync();
             return user;
         }
-        public User Update(Guid userId, UpdateUserDto dto)
+        public async Task<User> Update(Guid userId, UpdateUserDto dto)
         {
-            var user = GetById(userId);
+            var user = await GetById(userId);
+
+            if(user == null)
+                throw new Exception("User not found");
 
             if (dto.Name == null && dto.LastName == null && dto.Place == null )
                 throw new Exception("You must update at least one property.");
@@ -60,13 +56,16 @@ namespace TutorialASP.Services
             
             if(dto.Place != null)
                 user.Place = dto.Place;
+
+            await _dbContext.SaveChangesAsync();
+            
             return user;
             
         }
 
-        public void Delete(Guid userId)
+        public async Task Delete(Guid userId)
         {
-            Users.Remove(GetById(userId));
+            _dbContext.Users.Remove(await GetById(userId));
         }
 
     }
