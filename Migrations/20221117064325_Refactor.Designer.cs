@@ -3,14 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using TutorialASP.Contexts;
 
 #nullable disable
 
 namespace TutorialASP.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20221115235002_Initial")]
-    partial class Initial
+    [Migration("20221117064325_Refactor")]
+    partial class Refactor
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,17 +33,17 @@ namespace TutorialASP.Migrations
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("character varying(13)");
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(13)
+                        .HasColumnType("character varying(13)");
 
                     b.Property<string>("Place")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

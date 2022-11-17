@@ -6,19 +6,19 @@ namespace TutorialASP.Services
 {
     public class UserService : IUserService
     {
-        private readonly DBContext _dbContext;
-        public UserService(DBContext dbContext)
+        private readonly Context _context;
+        public UserService(Context context)
         {
-            _dbContext = dbContext;
+            _context = context;
         }
 
         public async Task<List<User>> GetUsers()
         {
-            return await _dbContext.Users.ToListAsync();
+            return await _context.Users.ToListAsync();
         }
         public async Task<User> GetById(Guid userId)
         {
-            var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Id == userId);
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == userId);
             if (user == null)
                 throw new Exception("User not found");
 
@@ -34,8 +34,8 @@ namespace TutorialASP.Services
                 Place = dto.Place,
             };
 
-             _dbContext.Users.Add(user);
-            await  _dbContext.SaveChangesAsync();
+             _context.Users.Add(user);
+            await  _context.SaveChangesAsync();
             return user;
         }
         public async Task<User> Update(Guid userId, UpdateUserDto dto)
@@ -57,7 +57,7 @@ namespace TutorialASP.Services
             if(dto.Place != null)
                 user.Place = dto.Place;
 
-            await _dbContext.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             
             return user;
             
@@ -65,7 +65,8 @@ namespace TutorialASP.Services
 
         public async Task Delete(Guid userId)
         {
-            _dbContext.Users.Remove(await GetById(userId));
+            _context.Users.Remove(await GetById(userId));
+            await _context.SaveChangesAsync();
         }
 
     }

@@ -1,4 +1,4 @@
-global using TutorialASP.Context;
+global using TutorialASP.Contexts;
 global using TutorialASP.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using TutorialASP.Services;
@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddDbContext<DBContext>(options =>
+builder.Services.AddDbContext<Context>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("RestApiTutorial"));
 });
